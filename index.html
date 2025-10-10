@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rechazar Imagen - Universidad ISEP</title>
+  <title>Rechazar Artículo - Universidad ISEP</title>
   <style>
     * {
       margin: 0;
@@ -49,7 +49,6 @@
       padding: 30px;
     }
     
-    /* Tabs */
     .tabs {
       display: flex;
       gap: 10px;
@@ -93,59 +92,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Sección de Imagen */
-    .image-section {
-      background: #f9f9f9;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    
-    .image-section h3 {
-      color: #1B156B;
-      font-size: 16px;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #7848FF;
-    }
-    
-    .image-container {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    .image-container img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .image-actions {
-      margin-top: 15px;
-    }
-    
-    .btn-view-full {
-      display: inline-block;
-      background: linear-gradient(135deg, #FF7F1D 0%, #FF9B4D 100%);
-      color: white;
-      padding: 12px 30px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
-      transition: transform 0.2s;
-    }
-    
-    .btn-view-full:hover {
-      transform: translateY(-2px);
-    }
-    
-    /* Info boxes */
     .info-section {
       background: #f9f9f9;
       border-radius: 8px;
@@ -195,7 +141,7 @@
       border-radius: 6px;
       border: 1px solid #e0e0e0;
       margin-top: 10px;
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
     }
     
@@ -209,7 +155,6 @@
       line-height: 1.6;
     }
     
-    /* Formulario */
     .form-section {
       background: #FFF3E0;
       border-left: 4px solid #FF7F1D;
@@ -302,7 +247,6 @@
       left: 0;
     }
     
-    /* Botones */
     .button-group {
       display: flex;
       gap: 15px;
@@ -419,59 +363,71 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
-      <h1>🚫 Rechazar Imagen</h1>
-      <p>Sistema de Revisión de Imágenes - Universidad ISEP</p>
+      <h1>🚫 Rechazar Artículo</h1>
+      <p>Sistema de Revisión de Artículos - Universidad ISEP</p>
     </div>
     
-    <!-- Loading -->
     <div id="loadingState" class="loading">
       <div class="loading-spinner"></div>
-      <p>Cargando información de la imagen...</p>
+      <p>Cargando información del artículo...</p>
     </div>
     
-    <!-- Content -->
     <div class="content" id="mainContent" style="display: none;">
       
-      <!-- Tabs Navigation - SIN EL TAB DE COPY -->
       <div class="tabs">
-        <button class="tab active" onclick="switchTab('descripcion')">🎨 Descripción Visual</button>
-        <button class="tab" onclick="switchTab('prompt')">🤖 Prompt Gemini</button>
+        <button class="tab active" onclick="switchTab('contenido')">📝 Contenido del Artículo</button>
+        <button class="tab" onclick="switchTab('detalles')">ℹ️ Información Adicional</button>
         <button class="tab" onclick="switchTab('rechazo')">🚫 Formulario de Rechazo</button>
       </div>
       
-      <!-- Tab 1: Copy - OCULTO CON DISPLAY NONE -->
-      <div id="tab-copy" class="tab-content" style="display: none;">
+      <div id="tab-contenido" class="tab-content active">
         <div class="info-section">
-          <h3>📝 Copy de la Publicación</h3>
+          <h3>📄 Contenido del Artículo</h3>
           <div class="content-display">
-            <pre id="display-copy">-</pre>
+            <pre id="display-contenido">-</pre>
+          </div>
+          <div style="display: flex; gap: 15px; margin-top: 12px; flex-wrap: wrap;">
+            <p style="margin: 0; color: #999; font-size: 12px;">
+              📊 <span id="stats-caracteres">-</span> caracteres
+            </p>
+            <p style="margin: 0; color: #999; font-size: 12px;">
+              📝 <span id="stats-palabras">-</span> palabras
+            </p>
           </div>
         </div>
       </div>
       
-      <!-- Tab 2: Descripción Visual - AHORA ES EL ACTIVO -->
-      <div id="tab-descripcion" class="tab-content active">
+      <div id="tab-detalles" class="tab-content">
         <div class="info-section">
-          <h3>🎨 Descripción Visual de la Imagen</h3>
-          <div class="content-display">
-            <pre id="display-descripcionVisual">-</pre>
+          <h3>ℹ️ Información del Artículo</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Plataforma</label>
+              <div class="value" id="info-plataforma">-</div>
+            </div>
+            <div class="info-item">
+              <label>Fecha</label>
+              <div class="value" id="info-fecha">-</div>
+            </div>
+            <div class="info-item">
+              <label>Tipo de Contenido</label>
+              <div class="value" id="info-tipo">-</div>
+            </div>
+            <div class="info-item">
+              <label>Subformato</label>
+              <div class="value" id="info-subformato">-</div>
+            </div>
+          </div>
+          <div style="margin-top: 15px;">
+            <div class="info-item">
+              <label>Descripción</label>
+              <div class="value" id="info-descripcion">-</div>
+            </div>
           </div>
         </div>
       </div>
       
-      <!-- Tab 3: Prompt Gemini -->
-      <div id="tab-prompt" class="tab-content">
-        <div class="info-section">
-          <h3>🤖 Prompt Utilizado en Gemini</h3>
-          <div class="content-display">
-            <pre id="display-promptGemini">-</pre>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Tab 4: Formulario de Rechazo -->
       <div id="tab-rechazo" class="tab-content">
         <div class="form-section">
           <h3>📝 Especifica los Cambios Necesarios</h3>
@@ -479,13 +435,13 @@
           <form id="rejectionForm">
             
             <div class="form-group">
-              <label for="cambios-copy">
-                Cambios en el Copy
+              <label for="cambios-contenido">
+                Cambios en el Contenido
               </label>
               <textarea 
-                id="cambios-copy"
-                name="cambios_copy"
-                placeholder="Especifica los cambios necesarios en el copy de la publicación...&#10;&#10;Ejemplo:&#10;- Cambiar el tono a más profesional&#10;- Eliminar emojis del segundo párrafo&#10;- Acortar el texto a máximo 280 caracteres"
+                id="cambios-contenido"
+                name="cambios_contenido"
+                placeholder="Especifica los cambios necesarios en el contenido del artículo...&#10;&#10;Ejemplo:&#10;- Cambiar el tono a más profesional&#10;- Eliminar emojis innecesarios&#10;- Acortar el texto a máximo 1000 caracteres&#10;- Reescribir la introducción"
                 maxlength="1000"
               ></textarea>
               <div class="char-count">
@@ -494,13 +450,13 @@
             </div>
             
             <div class="form-group">
-              <label for="cambios-prompt">
-                Cambios en el Prompt de Gemini
+              <label for="cambios-estructura">
+                Cambios en Estructura/Formato
               </label>
               <textarea 
-                id="cambios-prompt"
-                name="cambios_prompt"
-                placeholder="Especifica los cambios necesarios en el prompt...&#10;&#10;Ejemplo:&#10;- Agregar instrucción para incluir más contraste&#10;- Especificar mejor el estilo visual (realista, ilustración, etc.)&#10;- Ajustar la descripción de los elementos principales"
+                id="cambios-estructura"
+                name="cambios_estructura"
+                placeholder="Especifica cambios en la estructura o formato...&#10;&#10;Ejemplo:&#10;- Reorganizar los puntos principales&#10;- Agregar más subtítulos&#10;- Cambiar el formato de lista a párrafos&#10;- Ajustar el uso de negritas y énfasis"
                 maxlength="1000"
               ></textarea>
               <div class="char-count">
@@ -517,7 +473,7 @@
                 id="comentarios-generales"
                 name="comentario_rechazo"
                 required
-                placeholder="Escribe aquí comentarios generales o adicionales sobre el rechazo...&#10;&#10;Ejemplo:&#10;- CRÍTICO: La imagen no refleja el concepto de la campaña&#10;- OPCIONAL: Considerar agregar el logo de ISEP&#10;- La calidad de la imagen está bien, solo ajustar colores"
+                placeholder="Escribe aquí comentarios generales o adicionales sobre el rechazo...&#10;&#10;Ejemplo:&#10;- CRÍTICO: El artículo no refleja el tono de la marca&#10;- OPCIONAL: Considerar agregar más ejemplos prácticos&#10;- El enfoque está bien, solo ajustar la redacción"
                 maxlength="2000"
               ></textarea>
               <div class="char-count">
@@ -525,19 +481,17 @@
               </div>
             </div>
             
-            <!-- Tips -->
             <div class="tips-box">
               <h4>💡 Tips para comentarios efectivos:</h4>
               <ul>
-                <li><strong>Sé específico:</strong> Indica exactamente qué aspecto de la imagen o texto necesita cambios</li>
+                <li><strong>Sé específico:</strong> Indica exactamente qué aspecto del artículo necesita cambios</li>
                 <li><strong>Sugiere soluciones:</strong> No solo digas qué está mal, indica cómo mejorarlo</li>
                 <li><strong>Prioriza:</strong> Marca como "CRÍTICO" o "OPCIONAL" según la urgencia</li>
-                <li><strong>Separa por categorías:</strong> Usa los campos específicos para copy, descripción y prompt</li>
-                <li><strong>Revisa la imagen:</strong> Asegúrate de ver la imagen antes de enviar el rechazo</li>
+                <li><strong>Separa por categorías:</strong> Usa los campos específicos para contenido y estructura</li>
+                <li><strong>Revisa el artículo completo:</strong> Asegúrate de leer todo antes de enviar el rechazo</li>
               </ul>
             </div>
             
-            <!-- Botones -->
             <div class="button-group">
               <button type="button" class="btn btn-secondary" onclick="window.close()">
                 ← Cancelar
@@ -550,13 +504,12 @@
         </div>
       </div>
       
-      <!-- Mensaje de éxito (oculto inicialmente) -->
       <div class="success-message" id="successMessage">
         <div class="success-icon">✅</div>
         <h2>¡Rechazo Registrado!</h2>
         <p>
           Tus comentarios detallados han sido enviados correctamente.<br>
-          La imagen volverá al proceso de generación con todas tus observaciones.
+          El artículo volverá al proceso de generación con todas tus observaciones.
         </p>
         <p style="margin-top: 20px; color: #999; font-size: 14px;">
           Puedes cerrar esta ventana
@@ -566,13 +519,10 @@
   </div>
   
   <script>
-    // Configuración
-    const webhookUrl = 'https://n8npruebas.universidadisep.com/webhook-test/prompts_de_imagenes';
+    const webhookUrl = 'https://n8npruebas.universidadisep.com/webhook-test/creador_de_articulos';
     
-    // Obtener parámetros de la URL
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Función para decodificar de forma segura
     function safeDecodeURIComponent(str) {
       try {
         return decodeURIComponent(str || '');
@@ -582,75 +532,38 @@
       }
     }
     
-    // Intentar obtener datos desde localStorage primero (para datos grandes)
-    const dataKey = urlParams.get('dataKey');
-    let imageData = null;
+    const articleData = {
+      itemId: urlParams.get('itemId'),
+      itemIndex: urlParams.get('itemIndex'),
+      contenido: safeDecodeURIComponent(urlParams.get('contenido')),
+      fecha: urlParams.get('fecha'),
+      plataforma: urlParams.get('plataforma'),
+      tipo_contenido: safeDecodeURIComponent(urlParams.get('tipo_contenido')),
+      subformato: safeDecodeURIComponent(urlParams.get('subformato')),
+      descripcion: safeDecodeURIComponent(urlParams.get('descripcion'))
+    };
     
-    if (dataKey) {
-      console.log('🔑 Cargando datos desde localStorage con key:', dataKey);
-      try {
-        const storedData = localStorage.getItem(dataKey);
-        if (storedData) {
-          imageData = JSON.parse(storedData);
-          console.log('✅ Datos cargados desde localStorage');
-        }
-      } catch (e) {
-        console.warn('⚠️ No se pudo cargar desde localStorage:', e);
-      }
-    }
+    console.log('Datos del artículo:', articleData);
     
-    // Si no hay datos en localStorage, intentar desde URL (fallback)
-    if (!imageData) {
-      console.log('📝 Cargando datos desde URL params');
-      imageData = {
-        itemId: urlParams.get('itemId') || urlParams.get('id'),
-        uniqueId: urlParams.get('unique_id') || urlParams.get('uniqueId'),
-        campaignId: urlParams.get('campaign_id') || urlParams.get('campaignId'),
-        itemIndex: urlParams.get('itemIndex'),
-        imageUrl: safeDecodeURIComponent(urlParams.get('image_url')),
-        fileName: safeDecodeURIComponent(urlParams.get('file_name')) || 'imagen.png',
-        copy: safeDecodeURIComponent(urlParams.get('copy')) || 'No especificado',
-        descripcionVisual: safeDecodeURIComponent(urlParams.get('descripcion_visual')) || 'No especificado',
-        promptGemini: safeDecodeURIComponent(urlParams.get('prompt_gemini') || urlParams.get('prompt_de_gemini')) || 'No especificado',
-        plataforma: urlParams.get('plataforma'),
-        subformato: urlParams.get('subformato'),
-        tipoContenido: urlParams.get('tipo_contenido')
-      };
-    }
-    
-    // También obtener IDs básicos de la URL por si acaso
-    if (!imageData.itemId) imageData.itemId = urlParams.get('itemId');
-    if (!imageData.uniqueId) imageData.uniqueId = urlParams.get('unique_id');
-    if (!imageData.campaignId) imageData.campaignId = urlParams.get('campaign_id');
-    if (!imageData.itemIndex) imageData.itemIndex = urlParams.get('itemIndex');
-    
-    // Cargar datos inmediatamente (sin delay artificial)
-    // Agregar log para debug
-    console.log('URL completa:', window.location.href);
-    console.log('Parámetros detectados:', imageData);
-    
-    // Mostrar contenido inmediatamente
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
-    displayImageData();
+    displayArticleData();
     
-    // Mostrar datos en la interfaz
-    function displayImageData() {
+    function displayArticleData() {
       try {
-        // Tab 1: Copy (oculto pero se carga igual)
-        const copyText = imageData.copy || 'No disponible';
-        document.getElementById('display-copy').textContent = copyText;
-        console.log('📝 Copy cargado:', copyText.substring(0, 100) + '...');
+        const contenido = articleData.contenido || 'No disponible';
+        document.getElementById('display-contenido').textContent = contenido;
         
-        // Tab 2: Descripción Visual
-        const descripcionText = imageData.descripcionVisual || 'No disponible';
-        document.getElementById('display-descripcionVisual').textContent = descripcionText;
-        console.log('🎨 Descripción cargada:', descripcionText.substring(0, 100) + '...');
+        const palabras = contenido.split(/\s+/).filter(w => w.length > 0).length;
+        const caracteres = contenido.length;
+        document.getElementById('stats-palabras').textContent = palabras;
+        document.getElementById('stats-caracteres').textContent = caracteres;
         
-        // Tab 3: Prompt Gemini
-        const promptText = imageData.promptGemini || 'No disponible';
-        document.getElementById('display-promptGemini').textContent = promptText;
-        console.log('🤖 Prompt cargado:', promptText.substring(0, 100) + '...');
+        document.getElementById('info-plataforma').textContent = articleData.plataforma || 'No especificado';
+        document.getElementById('info-fecha').textContent = articleData.fecha || 'No especificado';
+        document.getElementById('info-tipo').textContent = articleData.tipo_contenido || 'No especificado';
+        document.getElementById('info-subformato').textContent = articleData.subformato || 'No especificado';
+        document.getElementById('info-descripcion').textContent = articleData.descripcion || 'No especificado';
         
         console.log('✅ Datos cargados correctamente');
       } catch (error) {
@@ -659,9 +572,7 @@
       }
     }
     
-    // Función para cambiar de tab
     function switchTab(tabName) {
-      // Ocultar todos los tabs
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
       });
@@ -669,12 +580,10 @@
         tab.classList.remove('active');
       });
       
-      // Mostrar el tab seleccionado
       document.getElementById('tab-' + tabName).classList.add('active');
       event.target.classList.add('active');
     }
     
-    // Contadores de caracteres para todos los textareas
     document.querySelectorAll('textarea').forEach(textarea => {
       const counter = textarea.parentElement.querySelector('.char-counter');
       if (counter) {
@@ -684,15 +593,14 @@
       }
     });
     
-    // Manejar envío del formulario
     const form = document.getElementById('rejectionForm');
     const submitBtn = document.getElementById('submitBtn');
     
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      const cambiosCopy = document.getElementById('cambios-copy').value.trim();
-      const cambiosPrompt = document.getElementById('cambios-prompt').value.trim();
+      const cambiosContenido = document.getElementById('cambios-contenido').value.trim();
+      const cambiosEstructura = document.getElementById('cambios-estructura').value.trim();
       const comentariosGenerales = document.getElementById('comentarios-generales').value.trim();
       
       if (!comentariosGenerales) {
@@ -705,49 +613,40 @@
         return;
       }
       
-      // Deshabilitar botón
       submitBtn.disabled = true;
       submitBtn.innerHTML = '⏳ Enviando...';
       
       try {
-        // Construir comentario completo estructurado
-        let comentarioCompleto = '=== RECHAZO DE IMAGEN ===\n\n';
+        let comentarioCompleto = '=== RECHAZO DE ARTÍCULO ===\n\n';
         
-        if (cambiosCopy) {
-          comentarioCompleto += '📝 CAMBIOS EN EL COPY:\n' + cambiosCopy + '\n\n';
+        if (cambiosContenido) {
+          comentarioCompleto += '📝 CAMBIOS EN EL CONTENIDO:\n' + cambiosContenido + '\n\n';
         }
         
-        if (cambiosPrompt) {
-          comentarioCompleto += '🤖 CAMBIOS EN EL PROMPT DE GEMINI:\n' + cambiosPrompt + '\n\n';
+        if (cambiosEstructura) {
+          comentarioCompleto += '🔧 CAMBIOS EN ESTRUCTURA/FORMATO:\n' + cambiosEstructura + '\n\n';
         }
         
         comentarioCompleto += '💬 COMENTARIOS GENERALES:\n' + comentariosGenerales;
         
-        // Construir URL con parámetros
         const params = new URLSearchParams({
           action: 'rechazar',
-          itemId: imageData.itemId,
-          uniqueId: imageData.uniqueId,
-          campaignId: imageData.campaignId,
-          itemIndex: imageData.itemIndex,
+          itemId: articleData.itemId,
+          itemIndex: articleData.itemIndex,
           comentario_rechazo: comentarioCompleto,
-          cambios_copy: cambiosCopy,
-          cambios_prompt: cambiosPrompt
+          cambios_contenido: cambiosContenido,
+          cambios_estructura: cambiosEstructura
         });
         
-        // Enviar al webhook
         const img = new Image();
         img.src = `${webhookUrl}?${params.toString()}`;
         
-        // Esperar un momento
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Mostrar mensaje de éxito
         document.getElementById('mainContent').innerHTML = '';
         document.getElementById('successMessage').classList.add('show');
         document.getElementById('mainContent').appendChild(document.getElementById('successMessage'));
         
-        // Cerrar ventana después de 3 segundos
         setTimeout(() => {
           window.close();
         }, 3000);
